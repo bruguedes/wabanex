@@ -1,6 +1,8 @@
 # wabanex
 Application developed in the NLWtogether, where the objective is a api graphql for physical exercises control.
 
+Application developed in the NLWtogether, where the objective is a api graphql for physical exercises control.
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
