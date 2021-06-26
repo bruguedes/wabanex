@@ -22,7 +22,7 @@ defmodule Wabanex.Schemas.User do
   def changeset(params) do
     %__MODULE__{}
     |> cast(params, @fields)
-    # |> validate_required(@fields)
+    |> validate_required(@fields)
     |> validate_length(:password, min: 6)
     |> validate_length(:name, min: 3)
     |> validate_format(:email, ~r/@/)

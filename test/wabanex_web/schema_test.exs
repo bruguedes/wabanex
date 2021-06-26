@@ -83,4 +83,58 @@ defmodule WabanexWeb.SchemaTest do
              } = response
     end
   end
+
+  describe "training mutations" do
+    test "success creating new training", %{conn: conn} do
+      params = %{name: "Bruno Guedes", email: "bruguedes@gmail.com", password: "121212"}
+
+      {:ok, %User{id: user_id}} = Create.call(params)
+
+      mutation = """
+      mutation {
+        createTraining(input:
+        {
+         start_date: "2021-06-22",
+         end_date: "2021-07-22",
+         user_id: "#{user_id}",
+         exercises: [
+           {
+             name: "tricips",
+             protocol_description: "regular",
+             repetitions: "3x15",
+             youtube_url: "www.youtube.com"
+           },
+           {
+             name: "biceps",
+             protocol_description: "regular",
+             repetitions: "3x15",
+             youtube_url: "www.youtube.com"
+           }
+         ]
+       }){
+           exercises{
+           id,
+           name
+         }
+      }
+      }
+      """
+
+      response =
+        conn
+        |> post("/api/graphql", %{query: mutation})
+        |> json_response(200)
+
+      assert %{
+               "data" => %{
+                 "createTraining" => %{
+                   "exercises" => [
+                     %{"id" => _, "name" => "tricips"},
+                     %{"id" => _, "name" => "biceps"}
+                   ]
+                 }
+               }
+             } = response
+    end
+  end
 end
